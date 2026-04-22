@@ -1,232 +1,213 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VELOORIA PARFUM | LUXURY EXPERIENCE</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;500;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>VELOORIA BEAUTY | Official Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            --sauvage-glow: #0047ff;
-            --stronger-glow: #ff6a00;
-            --libre-glow: #ffcc00;
-            --goodgirl-glow: #6a00ff;
-            --glass: rgba(255, 255, 255, 0.05);
+            --sauvage: #4A90E2; --stronger: #CD7F32; --libre: #D4AF37; --goodgirl: #1a4d99;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; outline:none; text-decoration:none; -webkit-tap-highlight-color:transparent; }
+        body { background-color:#000; color:#fff; font-family:'Montserrat',sans-serif; overflow-x:hidden; }
+
+        /* الواجهة الرئيسية - 4 عطور */
+        #home-grid { 
+            display: grid; grid-template-columns: repeat(4, 1fr); 
+            height: 100vh; align-items: center; padding: 0 5%; gap: 20px;
+        }
+        .perfume-card { text-align: center; cursor: pointer; transition: 0.5s; }
+        .perfume-card img { width: 100%; filter: drop-shadow(0 0 20px var(--glow)); transition: 0.5s; }
+        .perfume-card:hover img { transform: scale(1.1); filter: drop-shadow(0 0 40px var(--glow)); }
+        .perfume-card h2 { font-family: 'Cinzel'; font-size: 1rem; margin-top: 15px; letter-spacing: 2px; }
+
+        /* زر الرجوع */
+        #back-btn { 
+            position: fixed; top: 20px; right: 20px; z-index: 9999; 
+            background: rgba(255,255,255,0.1); backdrop-filter: blur(10px);
+            padding: 10px 20px; border-radius: 30px; cursor: pointer; display: none;
+            font-family: 'Cinzel'; font-size: 0.8rem;
         }
 
-        body {
-            background-color: #000;
-            color: #fff;
-            font-family: 'Montserrat', sans-serif;
-            margin: 0;
-            overflow-x: hidden;
+        /* الصفحات الداخلية */
+        .scent-universe { display: none; padding-bottom: 100px; }
+        .hero-video { width: 100%; height: auto; display: block; }
+
+        .info-section { display: flex; align-items: center; padding: 60px 10%; gap: 50px; }
+        .info-section.rev { flex-direction: row; } /* الصورة أقصى اليمين */
+        .info-img { width: 40%; filter: drop-shadow(0 0 30px var(--glow)); }
+        .info-text { width: 60%; text-align: right; }
+        .info-text h3 { font-family: 'Cinzel'; color: var(--color); font-size: 1.8rem; margin-bottom: 15px; }
+
+        /* منطقة الشراء Minimalist */
+        .purchase-zone { display: flex; justify-content: space-between; padding: 60px 10%; }
+        .product-mini { width: 120px; filter: drop-shadow(0 0 15px var(--glow)); }
+        
+        .size-selector-free { display: flex; gap: 30px; margin: 20px 0; }
+        .size-option { cursor: pointer; font-weight: 600; color: #444; position: relative; transition: 0.3s; }
+        .size-option.active { color: #fff; }
+        .size-option.active::after { 
+            content: ''; position: absolute; bottom: -5px; left: 0; width: 100%; 
+            height: 2px; background: var(--color); box-shadow: 0 0 10px var(--color);
         }
 
-        /* زر الرجوع المطور */
-        .back-to-home {
-            position: fixed;
-            top: 30px;
-            left: 30px;
-            z-index: 1000;
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            padding: 12px 25px;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 50px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: 0.4s;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 2px;
+        .order-form { display: flex; flex-direction: column; gap: 15px; width: 40%; }
+        .order-form input { 
+            background: transparent; border: none; border-bottom: 1px solid #333; 
+            padding: 12px 0; color: #fff; text-align: right;
         }
-        .back-to-home:hover { background: #fff; color: #000; transform: translateX(-5px); }
+        .order-btn { background: #fff; color: #000; padding: 20px; font-family: 'Cinzel'; font-weight: 800; border: none; cursor: pointer; }
 
-        /* قسم المعلومات المرتب */
-        .order-hub {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            padding: 100px 8%;
-            background: linear-gradient(to bottom, #050505, #000);
-        }
+        footer { text-align: center; padding: 40px; border-top: 1px solid #111; color: #555; }
 
-        /* الجانب الأيمن: تفاصيل العطر */
-        .scent-specs {
-            border-right: 1px solid rgba(255,255,255,0.1);
-            padding-right: 40px;
-        }
-
-        .scent-badge {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .scent-badge img {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 10px;
-            border: 2px solid var(--accent);
-        }
-
-        .title-group h2 {
-            font-family: 'Cinzel';
-            margin: 0;
-            font-size: 2rem;
-            color: var(--accent);
-            text-shadow: 0 0 20px var(--accent);
-        }
-
-        .size-selector {
-            display: flex;
-            gap: 20px;
-            margin-top: 40px;
-        }
-
-        .size-option {
-            flex: 1;
-            padding: 25px;
-            border: 1px solid rgba(255,255,255,0.1);
-            text-align: center;
-            cursor: pointer;
-            transition: 0.3s;
-            background: rgba(255,255,255,0.02);
-        }
-
-        .size-option.active {
-            border-color: var(--accent);
-            background: rgba(255,255,255,0.05);
-            box-shadow: inset 0 0 15px var(--accent);
-        }
-
-        .ml-tag { font-size: 1.5rem; font-weight: 700; display: block; }
-        .sprays-count { font-size: 0.7rem; color: #888; margin-top: 5px; }
-
-        /* الجانب الأيسر: الاستمارة */
-        .checkout-form {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
-
-        .input-group input, .input-group textarea {
-            width: 100%;
-            background: transparent;
-            border: none;
-            border-bottom: 1px solid #333;
-            padding: 15px 0;
-            color: #fff;
-            font-family: 'Montserrat';
-            transition: 0.3s;
-        }
-
-        .input-group input:focus { border-bottom-color: var(--accent); outline: none; }
-
-        .order-btn {
-            background: #fff;
-            color: #000;
-            padding: 25px;
-            font-family: 'Cinzel';
-            font-weight: 700;
-            font-size: 1.1rem;
-            border: none;
-            cursor: pointer;
-            margin-top: 30px;
-            transition: 0.4s;
-        }
-
-        .order-btn:hover {
-            letter-spacing: 5px;
-            background: var(--accent);
-            color: #fff;
-        }
-
-        @media (max-width: 992px) {
-            .order-hub { grid-template-columns: 1fr; }
-            .scent-specs { border-right: none; padding-right: 0; border-bottom: 1px solid #222; padding-bottom: 40px; }
+        @media (max-width: 768px) {
+            #home-grid { grid-template-columns: 1fr 1fr; }
+            .info-section { flex-direction: column-reverse !important; text-align: center; }
+            .info-text { width: 100%; } .info-img { width: 70%; }
+            .purchase-zone { flex-direction: column; align-items: center; gap: 40px; }
+            .order-form { width: 100%; }
         }
     </style>
 </head>
 <body>
 
-    <div class="back-to-home" id="backBtn" style="display: none;" onclick="closeUniverse()">
-        <span>←</span> Back to Collection
+    <div id="back-btn" onclick="showHome()">← العودة للمجموعة</div>
+
+    <div id="home-grid">
+        <div class="perfume-card" style="--glow: var(--sauvage)" onclick="openScent('sauvage')">
+            <img src="assets/sauvage.png">
+            <h2>SAUVAGE ELIXIR</h2>
+        </div>
+        <div class="perfume-card" style="--glow: var(--stronger)" onclick="openScent('stronger')">
+            <img src="assets/stronger.png">
+            <h2>STRONGER WITH YOU</h2>
+        </div>
+        <div class="perfume-card" style="--glow: var(--libre)" onclick="openScent('libre')">
+            <img src="assets/libre.png">
+            <h2>LIBRE INTENSE</h2>
+        </div>
+        <div class="perfume-card" style="--glow: var(--goodgirl)" onclick="openScent('goodgirl')">
+            <img src="assets/goodgirl.png">
+            <h2>GOOD GIRL MIDNIGHT</h2>
+        </div>
     </div>
 
-    <section id="sauvage" class="scent-universe" style="--accent: var(--sauvage-glow); display: block;">
+    <div id="sauvage-page" class="scent-universe" style="--color: var(--sauvage); --glow: var(--sauvage);">
+        <video class="hero-video" autoplay muted loop playsinline><source src="assets/sauvage-video.mp4"></video>
         
-        <div class="order-hub">
-            
-            <div class="scent-specs">
-                <div class="scent-badge">
-                    <img src="assets/sauvage-icon.jpg" alt="Sauvage">
-                    <div class="title-group">
-                        <h2>SAUVAGE ELIXIR</h2>
-                        <p style="color: #666; font-size: 0.8rem;">DIOR | ELIXIR CONCENTRATION</p>
-                    </div>
-                </div>
-
-                <p style="color: #bbb; line-height: 1.6;">A masterpiece of wild freshness. Intoxicates the senses with a custom-made heart of spices and a rich woody trail.</p>
-
-                <div class="size-selector">
-                    <div class="size-option" onclick="updateOrder('5ML', '± 80 SPRAYS', '170 DH')">
-                        <span class="ml-tag">5ML</span>
-                        <span class="sprays-count">± 80 SPRAYS</span>
-                    </div>
-                    <div class="size-option active" onclick="updateOrder('10ML', '± 160 SPRAYS', '319 DH')">
-                        <span class="ml-tag">10ML</span>
-                        <span class="sprays-count">± 160 SPRAYS</span>
-                    </div>
-                </div>
-
-                <div style="margin-top: 30px;">
-                    <span style="font-size: 0.8rem; color: #555;">CURRENT TOTAL:</span>
-                    <h1 id="priceDisplay" style="margin: 0; font-family: 'Cinzel'; color: var(--accent);">319 DH</h1>
-                </div>
+        <div class="info-section rev">
+            <div class="info-text">
+                <h3>الأداء والفوحان</h3>
+                <p>تركيز فائق يمنحك حضوراً قوياً طوال اليوم. فوحان يملأ المكان مع ثبات يدوم لأكثر من 24 ساعة.</p>
             </div>
+            <img src="assets/sauvage-perf.png" class="info-img">
+        </div>
 
-            <div class="checkout-form">
-                <div class="input-group">
-                    <input type="text" id="custName" placeholder="FULL NAME">
+        <div class="info-section rev">
+            <div class="info-text">
+                <h3>المكونات الحقيقية</h3>
+                <p>مزيج ساحر من القرفة والهيل في القمة، قلب من الخزامى، وقاعدة من خشب الصندل الفاخر.</p>
+            </div>
+            <img src="assets/sauvage-notes.png" class="info-img">
+        </div>
+
+        <div class="purchase-zone">
+            <div class="order-form">
+                <input type="text" placeholder="الاسم الكامل" id="name-sauvage">
+                <input type="tel" placeholder="رقم الهاتف" id="phone-sauvage">
+                <input type="text" placeholder="المدينة" id="city-sauvage">
+                <button class="order-btn" onclick="sendOrder('Sauvage Elixir', 'sauvage')">اطلب الآن</button>
+            </div>
+            <div style="text-align: right;">
+                <img src="assets/sauvage-mini.png" class="product-mini">
+                <h2 id="price-sauvage" style="font-family:'Cinzel'; margin: 15px 0;">319 DH</h2>
+                <div class="size-selector-free">
+                    <span class="size-option" onclick="setSize(this, '5ml', '199 DH', 'sauvage')">5ML</span>
+                    <span class="size-option active" onclick="setSize(this, '10ml', '319 DH', 'sauvage')">10ML</span>
                 </div>
-                <div class="input-group">
-                    <input type="tel" id="custPhone" placeholder="PHONE NUMBER">
-                </div>
-                <div class="input-group">
-                    <input type="text" id="custCity" placeholder="CITY">
-                </div>
-                <div class="input-group">
-                    <textarea id="custNote" placeholder="NOTES (OPTIONAL)"></textarea>
-                </div>
-                <button class="order-btn" onclick="submitTelegram()">ORDER NOW | <span id="btnPrice">319 DH</span></button>
             </div>
         </div>
-    </section>
+    </div>
+
+    <footer>
+        VELOORIA BEAUTY | للدعم والاستفسار: 0691444558
+    </footer>
+
+    <script type="module">
+      import Typebot from 'https://cdn.jsdelivr.net/npm/@typebot.io/js@0/dist/web.js'
+      Typebot.initBubble({
+        typebot: "my-typebot-v5y1jji",
+        previewMessage: { message: "مرحباً بيك! محتاجة مساعدة في اختيار عطر؟" },
+        theme: {
+          placement: "left",
+          button: {
+            backgroundColor: "#1D1D1D",
+            customIconSrc: "https://s3.typebotstorage.com/public/workspaces/cmo1ozjlf000006jon0c0dnhf/typebots/cmo25o37s000007mi2v5y1jji/bubble-icon?v=1776539635531",
+            size: "large",
+          },
+          chatWindow: { backgroundColor: "#171923" },
+        },
+      });
+    </script>
 
     <script>
-        let selectedSize = "10ML";
-        let selectedPrice = "319 DH";
+        let currentSize = "10ml";
+        let currentPrice = "319 DH";
 
-        function updateOrder(size, sprays, price) {
-            // تحديث الاختيارات البصرية
-            document.querySelectorAll('.size-option').forEach(opt => opt.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-            
-            // تحديث البيانات
-            selectedSize = size;
-            selectedPrice = price;
-            document.getElementById('priceDisplay').innerText = price;
-            document.getElementById('btnPrice').innerText = price;
+        function openScent(id) {
+            document.getElementById('home-grid').style.display = 'none';
+            document.getElementById(id + '-page').style.display = 'block';
+            document.getElementById('back-btn').style.display = 'block';
+            window.scrollTo(0,0);
         }
 
-        function closeUniverse() {
-            // كود الرجوع للصفحة الرئيسية
-            window.location.href = "#collection";
+        function showHome() {
+            document.getElementById('home-grid').style.display = 'grid';
+            document.querySelectorAll('.scent-universe').forEach(p => p.style.display = 'none');
+            document.getElementById('back-btn').style.display = 'none';
+        }
+
+        function setSize(el, size, price, id) {
+            currentSize = size;
+            currentPrice = price;
+            let parent = el.parentElement;
+            parent.querySelectorAll('.size-option').forEach(opt => opt.classList.remove('active'));
+            el.classList.add('active');
+            document.getElementById('price-' + id).innerText = price;
+        }
+
+        function sendOrder(productName, id) {
+            const name = document.getElementById('name-' + id).value;
+            const phone = document.getElementById('phone-' + id).value;
+            const city = document.getElementById('city-' + id).value;
+
+            if(!name || !phone || !city) { alert("عافاك عمر المعلومات كاملة"); return; }
+
+            const botToken = "8751066528:AAFJOYkbqi3bSxncJh4tKSQeH_0wCT660ps";
+            const chatId = "7635707772";
+            
+            const message = `🚀 *طلب جديد: Velooria Beauty*\n\n` +
+                            `📦 *المنتوج:* ${productName}\n` +
+                            `📏 *القياس:* ${currentSize}\n` +
+                            `💰 *الثمن:* ${currentPrice}\n` +
+                            `--------------------------\n` +
+                            `👤 *الاسم:* ${name}\n` +
+                            `📞 *الهاتف:* ${phone}\n` +
+                            `📍 *المدينة:* ${city}\n\n` +
+                            `✅ يونس، كليان جديد كيتسناك!`;
+
+            fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: chatId, text: message, parse_mode: 'Markdown' })
+            })
+            .then(res => {
+                alert("شكراً! تم إرسال طلبك بنجاح.");
+                showHome();
+            })
+            .catch(err => alert("وقع مشكل فالاتصال، حاول مرة أخرى."));
         }
     </script>
 </body>
